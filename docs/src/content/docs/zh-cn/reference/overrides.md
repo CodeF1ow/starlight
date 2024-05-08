@@ -18,6 +18,7 @@ tableOfContents:
 
 ```astro
 ---
+// src/components/Custom.astro
 import type { Props } from '@astrojs/starlight/props';
 
 const { hasSidebar } = Astro.props;
@@ -48,6 +49,12 @@ Starlight 会将以下参数传递给你的自定义组件。
 **类型：** `string | undefined`
 
 当前语言的根路径。对于默认语言来说是 `undefined`。
+
+#### `siteTitle`
+
+**类型：** `string`
+
+根据页面语言设置的网站标题。
 
 #### `slug`
 
@@ -120,7 +127,7 @@ entry: {
 **类型：** `{ depth: number; slug: string; text: string }[]`
 
 从当前页面提取的所有 Markdown 标题的数组。
-如果你想要构建一个遵循 Starlight 配置选项的目录，请使用 [`toc`](#toc)。
+如果你想要构建一个遵循 Starlight 配置选项的目录组件，请使用 [`toc`](#toc)。
 
 #### `lastUpdated`
 
@@ -133,6 +140,12 @@ entry: {
 **类型：** `URL | undefined`
 
 如果启用了，表示可以编辑此页面的地址的 JavaScript `URL` 对象。
+
+#### `labels`
+
+**类型：** `Record<string, string>`
+
+一个包含为当前页面本地化的 UI 字符串的对象。请参阅 [“翻译 Starlight UI”](/zh-cn/guides/i18n/#翻译-starlight-的-ui) 指南以获取所有可用键的列表。
 
 ---
 
@@ -211,7 +224,7 @@ entry: {
 **默认组件：** [`Header.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/Header.astro)
 
 在每个页面顶部显示的导航栏组件。
-默认实现显示了 [`<SiteTitle />`](#sitetitle)、[`<Search />`](#search)、[`<SocialIcons />`](#socialicons)、[`<ThemeSelect />`](#themeselect) 和 [`<LanguageSelect />`](#languageselect)。
+默认实现显示了 [`<SiteTitle />`](#sitetitle-1)、[`<Search />`](#search)、[`<SocialIcons />`](#socialicons)、[`<ThemeSelect />`](#themeselect) 和 [`<LanguageSelect />`](#languageselect)。
 
 #### `SiteTitle`
 
@@ -226,6 +239,10 @@ entry: {
 
 用于渲染 Starlight 搜索 UI 的组件。
 默认实现包含在导航栏中的按钮和在点击时显示搜索模态框以及加载 [Pagefind UI](https://pagefind.app/) 的代码。
+
+当 [`pagefind`](/zh-cn/reference/configuration/#pagefind) 被禁用时，默认的搜索组件不会被渲染。
+然而，如果你重写了 `Search`，你的自定义组件将总是被渲染，即使 `pagefind` 配置选项是 `false`。
+这允许你在禁用 Pagefind 时为其他搜索提供商添加 UI。
 
 #### `SocialIcons`
 
@@ -305,7 +322,7 @@ Starlight 的页面侧边栏负责显示当前页面的子标题的目录。
 **默认组件：** [`Banner.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/Banner.astro)
 
 横幅 (Banner) 组件在每个页面的顶部渲染。
-默认实现使用页面的 [`banner`](/zh-cn/reference/frontmatter#banner) frontmatter 值来决定是否渲染。
+默认实现使用页面的 [`banner`](/zh-cn/reference/frontmatter/#banner) frontmatter 值来决定是否渲染。
 
 #### `ContentPanel`
 
@@ -321,6 +338,12 @@ Starlight 的页面侧边栏负责显示当前页面的子标题的目录。
 
 自定义实现应确保在 `<h1>` 元素上设置 `id="_top"`，就像默认实现中一样。
 
+#### `DraftContentNotice`
+
+**默认组件：** [`DraftContentNotice.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/DraftContentNotice.astro)
+
+在开发过程中，当当前页面被标记为草稿时，向用户显示的通知。
+
 #### `FallbackContentNotice`
 
 **默认组件：** [`FallbackContentNotice.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/FallbackContentNotice.astro)
@@ -332,7 +355,7 @@ Starlight 的页面侧边栏负责显示当前页面的子标题的目录。
 
 **默认组件：** [`Hero.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/Hero.astro)
 
-当设置了 frontmatter 中的 [`hero`](/zh-cn/reference/frontmatter#hero) 时在页面顶部渲染的组件。
+当设置了 frontmatter 中的 [`hero`](/zh-cn/reference/frontmatter/#hero) 时在页面顶部渲染的组件。
 默认实现显示了一个大标题、标语、动作链接 (call-to-action links) 和可选的图片。
 
 #### `MarkdownContent`
@@ -341,6 +364,8 @@ Starlight 的页面侧边栏负责显示当前页面的子标题的目录。
 
 在页面主内容列中渲染 Markdown 内容的组件。
 默认实现为 Markdown 内容提供了基本的样式。
+
+Markdown 内容样式也暴露在 `@astrojs/starlight/style/markdown.css` 中，并且作用域限制在 `.sl-markdown-content` CSS 类中。
 
 ---
 

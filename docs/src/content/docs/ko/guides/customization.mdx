@@ -3,14 +3,15 @@ title: Starlight 사용자 정의
 description: 로고, 사용자 정의 글꼴, 랜딩 페이지 디자인 등을 사용하여 나만의 Starlight 사이트를 만드는 방법을 알아보세요.
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import FileTree from '../../../../components/file-tree.astro';
+import { Tabs, TabItem, FileTree, Steps } from '@astrojs/starlight/components';
 
 Starlight는 합리적인 기본 스타일과 기능을 제공하므로 구성 없이 빠르게 시작할 수 있습니다. Starlight 사이트의 모양과 느낌을 바꾸고 싶다면 이 가이드를 참조하세요.
 
 ## 로고 추가
 
 사이트 헤더에 로고를 추가하는 것은 Starlight 사이트에 브랜드를 추가하는 빠른 방법입니다.
+
+<Steps>
 
 1. `src/assets/` 디렉터리에 로고 이미지 파일을 추가합니다.
 
@@ -26,7 +27,7 @@ Starlight는 합리적인 기본 스타일과 기능을 제공하므로 구성 �
 
 2. `astro.config.mjs` 파일에 있는 [logo.src](/ko/reference/configuration/#logo) 옵션의 값으로 로고 파일의 경로를 추가하세요.
 
-   ```js
+   ```diff lang="js"
    // astro.config.mjs
    import { defineConfig } from 'astro/config';
    import starlight from '@astrojs/starlight';
@@ -36,16 +37,18 @@ Starlight는 합리적인 기본 스타일과 기능을 제공하므로 구성 �
    		starlight({
    			title: '로고를 사용하는 문서',
    			logo: {
-   				src: './src/assets/my-logo.svg',
+   +				src: './src/assets/my-logo.svg',
    			},
    		}),
    	],
    });
    ```
 
+</Steps>
+
 기본적으로 로고는 사이트의 `title`과 함께 표시됩니다. 이미 로고 이미지에 사이트 제목이 포함되어 있는 경우, `replacementTitle` 옵션을 설정하여 제목 텍스트를 시각적으로 숨길 수 있습니다. `title` 텍스트는 스크린 리더를 위해 남아 있기 때문에 헤더의 접근성은 유지됩니다.
 
-```js
+```js {5}
 starlight({
   title: '로고를 사용하는 문서',
   logo: {
@@ -58,6 +61,8 @@ starlight({
 ### 라이트 모드와 다크 모드에서의 로고 변형
 
 라이트 모드와 다크 모드에서 다른 버전의 로고를 표시할 수 있습니다.
+
+<Steps>
 
 1. `src/assets/` 디렉터리에 각 변형에 대한 이미지 파일을 추가합니다.
 
@@ -74,21 +79,23 @@ starlight({
 
 2. `astro.config.mjs` 파일에서 `src` 대신 `light` 및 `dark` 옵션을 전달하여 로고 변형에 대한 경로를 추가합니다.
 
-   ```js
+   ```diff lang="js"
    starlight({
      title: '로고를 사용하는 문서',
      logo: {
-       light: './src/assets/light-logo.svg',
-       dark: './src/assets/dark-logo.svg',
+   +    light: './src/assets/light-logo.svg',
+   +    dark: './src/assets/dark-logo.svg',
      },
    }),
    ```
+
+</Steps>
 
 ## 사이트맵 활성화
 
 Starlight에는 사이트맵 생성 기능이 내장되어 있습니다. `astro.config.mjs` 파일에 있는 `site` 속성의 값을 URL로 설정하여 사이트맵 생성을 활성화할 수 있습니다.
 
-```js
+```js {4}
 // astro.config.mjs
 
 export default defineConfig({
@@ -101,9 +108,9 @@ export default defineConfig({
 
 기본적으로 Starlight 페이지는 전역 탐색 사이드바와 현재 페이지 제목의 목차가 포함된 레이아웃을 사용합니다.
 
-프론트매터에 [`template: splash`](/ko/reference/frontmatter/#template)를 설정하여 사이드바 없이 더 넓은 페이지 레이아웃을 적용할 수 있습니다. 주로 랜딩 페이지에서 사용되며, [이 사이트의 홈페이지](/ko)에서 실제로 작동하는 것을 확인할 수 있습니다.
+프론트매터에 [`template: splash`](/ko/reference/frontmatter/#template)를 설정하여 사이드바 없이 더 넓은 페이지 레이아웃을 적용할 수 있습니다. 주로 랜딩 페이지에서 사용되며, [이 사이트의 홈페이지](/ko/)에서 실제로 작동하는 것을 확인할 수 있습니다.
 
-```md
+```md {5}
 ---
 # src/content/docs/index.md
 
@@ -118,10 +125,10 @@ Starlight는 독자가 원하는 제목으로 쉽게 이동할 수 있도록 각
 
 기본적으로 `<h2>` 및 `<h3>` 제목이 목차에 포함됩니다. [`tableOfContents`](/ko/reference/configuration/#tableofcontents) 의 `minHeadingLevel` 및 `maxHeadingLevel` 옵션을 사용하여 모든 페이지의 목차를 변경할 수 있습니다. 개별 페이지의 기본 목차를 변경하기 위해서는 [프론트매터에 `tableOfContents`](/ko/reference/frontmatter/#tableofcontents) 속성을 추가하세요.
 
-<Tabs>
+<Tabs syncKey="config-type">
   <TabItem label="개별 페이지 설정">
 
-```md
+```md {4-6}
 ---
 # src/content/docs/example.md
 title: 목차에 H2만 있는 페이지
@@ -134,13 +141,13 @@ tableOfContents:
   </TabItem>
   <TabItem label="전역 설정">
 
-```js
+```js {7}
 // astro.config.mjs
 
 defineConfig({
 	integrations: [
 		starlight({
-			title: '',
+			title: '맞춤 목차 구성이 포함된 문서',
 			tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 2 },
 		}),
 	],
@@ -152,10 +159,10 @@ defineConfig({
 
 `tableOfContents` 옵션의 값을 `false`로 설정하여 모든 페이지의 목차를 비활성화 할 수 있습니다.
 
-<Tabs>
+<Tabs syncKey="config-type">
   <TabItem label="개별 페이지 설정">
 
-```md
+```md {4}
 ---
 # src/content/docs/example.md
 title: 목차가 없는 페이지
@@ -166,7 +173,7 @@ tableOfContents: false
   </TabItem>
   <TabItem label="전역 설정">
 
-```js
+```js {7}
 // astro.config.mjs
 
 defineConfig({
@@ -186,9 +193,10 @@ defineConfig({
 
 Starlight에는 [`social`](/ko/reference/configuration/#social) 옵션을 사용하여 사이트 헤더에 소셜 미디어 계정을 링크하는 기능이 내장되어 있습니다.
 
-현재 Bitbucket, Codeberg, CodePen, Discord, 이메일, Facebook, GitHub, GitLab, Gitter, Instagram, LinkedIn, Mastodon, Microsoft Teams, Patreon, Reddit, RSS 피드, Stack Overflow, Telegram, Threads, Twitch, Twitter, X 및 Youtube에 대한 링크가 지원됩니다. 다른 서비스에 대한 지원이 필요하면 GitHub나 Discord를 통해 알려주세요!
+[구성 참조](/ko/reference/configuration/#social)에서 지원되는 링크 아이콘의 전체 목록을 확인할 수 있습니다.
+다른 서비스에 대한 지원이 필요하면 GitHub나 Discord를 통해 알려주세요!
 
-```js
+```js {9-12}
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
@@ -221,7 +229,7 @@ Starlight 프로젝트가 저장소의 루트에 없는 경우 기본 URL 끝에
 
 아래 예시는 GitHub `withastro/starlight` 저장소의 `main` 브랜치에 있는 `docs/` 디렉터리에 있는 Starlight 문서에 대해 구성된 편집 링크를 보여줍니다.
 
-```js
+```js {9-11}
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
@@ -255,8 +263,9 @@ Starlight 사이트는 기본적으로 간단한 404 페이지를 표시합니�
 
 404 페이지에서 Starlight의 모든 페이지 레이아웃과 사용자 정의 기술을 사용할 수 있습니다. 예를 들어 기본 404 페이지는 프론트매터에서 [`splash` 템플릿](#페이지-레이아웃)과 [`hero`](/ko/reference/frontmatter/#hero) 컴포넌트를 사용합니다.
 
-```md
+```md {4,6-8}
 ---
+# src/content/docs/404.md
 title: '404'
 template: splash
 editUrl: false
@@ -264,6 +273,25 @@ hero:
   title: '404'
   tagline: 페이지를 찾을 수 없습니다. URL을 확인하거나 검색창을 사용해 보세요.
 ---
+```
+
+### 기본 404 페이지 비활성화
+
+프로젝트에 완전히 사용자 정의된 404 레이아웃이 필요한 경우 `src/pages/404.astro` 경로를 생성하고 [`disable404Route`](/ko/reference/configuration/#disable404route) 구성 옵션을 설정하여 Starlight의 기본 경로를 비활성화할 수 있습니다.
+
+```js {9}
+// astro.config.mjs
+import { defineConfig } from 'astro/config';
+import starlight from '@astrojs/starlight';
+
+export default defineConfig({
+	integrations: [
+		starlight({
+			title: '사용자 정의 404가 포함된 문서',
+			disable404Route: true,
+		}),
+	],
+});
 ```
 
 ## 사용자 정의 글꼴
@@ -277,6 +305,8 @@ Starlight 사이트에 사용자 정의 글꼴을 추가해야 하는 경우, �
 이미 글꼴 파일이 존재한다면 [로컬 설정 가이드](#로컬-글꼴-파일-설정)를 따르세요. Google Fonts를 사용하려면 [Fontsource 설정 가이드](#fontsource-글꼴-설정)를 따르세요.
 
 #### 로컬 글꼴 파일 설정
+
+<Steps>
 
 1. `src/fonts/` 디렉터리에 글꼴 파일을 추가하고 빈 `font-face.css` 파일을 만드세요.
 
@@ -308,7 +338,7 @@ Starlight 사이트에 사용자 정의 글꼴을 추가해야 하는 경우, �
 
 3. `astro.config.mjs` 파일에 있는 Starlight의 `customCss` 배열에 `font-face.css` 파일의 경로를 추가하세요.
 
-   ```js
+   ```diff lang="js"
    // astro.config.mjs
    import { defineConfig } from 'astro/config';
    import starlight from '@astrojs/starlight';
@@ -318,17 +348,21 @@ Starlight 사이트에 사용자 정의 글꼴을 추가해야 하는 경우, �
    		starlight({
    			title: '사용자 정의 글꼴을 사용하는 문서',
    			customCss: [
-   				// @font-face CSS 파일의 상대 경로입니다.
-   				'./src/fonts/font-face.css',
+   +				// @font-face CSS 파일의 상대 경로입니다.
+   +				'./src/fonts/font-face.css',
    			],
    		}),
    	],
    });
    ```
 
+</Steps>
+
 #### Fontsource 글꼴 설정
 
 [Fontsource](https://fontsource.org/) 프로젝트는 Google Fonts 및 기타 오픈 소스 글꼴 사용을 단순화합니다. 글꼴을 설치할 수 있는 npm 모듈과 프로젝트에 추가할 CSS 파일을 제공합니다.
+
+<Steps>
 
 1.  [Fontsource 카탈로그](https://fontsource.org/)에서 사용하려는 글꼴을 찾으세요. 예시에서는 [IBM Plex Serif](https://fontsource.org/fonts/ibm-plex-serif)를 사용합니다.
 
@@ -347,7 +381,7 @@ Starlight 사이트에 사용자 정의 글꼴을 추가해야 하는 경우, �
         <TabItem label="pnpm">
 
     ```sh
-    pnpm install @fontsource/ibm-plex-serif
+    pnpm add @fontsource/ibm-plex-serif
     ```
 
            </TabItem>
@@ -364,7 +398,7 @@ Starlight 사이트에 사용자 정의 글꼴을 추가해야 하는 경우, �
 
 3.  `astro.config.mjs`에 있는 Starlight의 `customCss` 배열에 Fontsource CSS 파일을 추가합니다.
 
-    ```js
+    ```diff lang="js"
     // astro.config.mjs
     import { defineConfig } from 'astro/config';
     import starlight from '@astrojs/starlight';
@@ -374,9 +408,9 @@ Starlight 사이트에 사용자 정의 글꼴을 추가해야 하는 경우, �
     		starlight({
     			title: '사용자 정의 글꼴을 사용하는 문서',
     			customCss: [
-    				// 보통 및 약간 굵은 글꼴 두께에 대한 Fontsource 파일입니다.
-    				'@fontsource/ibm-plex-serif/400.css',
-    				'@fontsource/ibm-plex-serif/600.css',
+    + 				// 보통 및 약간 굵은 글꼴 두께에 대한 Fontsource 파일입니다.
+    + 				'@fontsource/ibm-plex-serif/400.css',
+    + 				'@fontsource/ibm-plex-serif/600.css',
     			],
     		}),
     	],
@@ -384,6 +418,8 @@ Starlight 사이트에 사용자 정의 글꼴을 추가해야 하는 경우, �
     ```
 
     Fontsource는 각 글꼴에 대해 여러 CSS 파일을 제공합니다. 다른 굵기 및 스타일을 포함하는 방법이 궁금하다면 [Fontsource 문서](https://fontsource.org/docs/getting-started/install#4-weights-and-styles)를 참조하세요.
+
+</Steps>
 
 ### 글꼴 사용
 

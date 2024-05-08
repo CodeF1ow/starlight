@@ -1,11 +1,47 @@
 import { z } from 'astro/zod';
 
-export function i18nSchema() {
-	return starlightI18nSchema().merge(pagefindI18nSchema());
+interface i18nSchemaOpts<T extends z.AnyZodObject = z.ZodObject<{}>> {
+	/**
+	 * Extend Starlight’s i18n schema with additional fields.
+	 *
+	 * @example
+	 * // Add two optional fields to the default schema.
+	 * i18nSchema({
+	 * 	extend: z
+	 * 		.object({
+	 * 			'customUi.heading': z.string(),
+	 * 			'customUi.text': z.string(),
+	 * 		})
+	 * 		.partial(),
+	 * })
+	 */
+	extend?: T;
 }
 
+const defaultI18nSchema = () =>
+	starlightI18nSchema().merge(pagefindI18nSchema()).merge(expressiveCodeI18nSchema());
+/** Type of Starlight’s default i18n schema, including extensions from Pagefind and Expressive Code. */
+type DefaultI18nSchema = ReturnType<typeof defaultI18nSchema>;
+
+/** Type that extends Starlight’s default i18n schema with an optional, user-defined schema. */
+type ExtendedSchema<T extends z.AnyZodObject> = T extends z.AnyZodObject
+	? z.ZodIntersection<DefaultI18nSchema, T>
+	: DefaultI18nSchema;
+
+/** Content collection schema for Starlight’s optional `i18n` collection. */
+export function i18nSchema<T extends z.AnyZodObject = z.ZodObject<{}>>({
+	extend = z.object({}) as T,
+}: i18nSchemaOpts<T> = {}): ExtendedSchema<T> {
+	return defaultI18nSchema().merge(extend) as ExtendedSchema<T>;
+}
+export type i18nSchemaOutput = z.output<ReturnType<typeof i18nSchema>>;
+
 export function builtinI18nSchema() {
-	return starlightI18nSchema().required().strict().merge(pagefindI18nSchema());
+	return starlightI18nSchema()
+		.required()
+		.strict()
+		.merge(pagefindI18nSchema())
+		.merge(expressiveCodeI18nSchema());
 }
 
 function starlightI18nSchema() {
@@ -49,7 +85,7 @@ function starlightI18nSchema() {
 
 			'menuButton.accessibleLabel': z
 				.string()
-				.describe('Accessible label for he mobile menu button.'),
+				.describe('Accessible label for the mobile menu button.'),
 
 			'sidebarNav.accessibleLabel': z
 				.string()
@@ -87,7 +123,21 @@ function starlightI18nSchema() {
 				.string()
 				.describe('Label shown on the “next page” pagination arrow in the page footer.'),
 
+			'page.draft': z
+				.string()
+				.describe(
+					'Development-only notice informing users they are on a page that is a draft which will not be included in production builds.'
+				),
+
 			'404.text': z.string().describe('Text shown on Starlight’s default 404 page'),
+			'aside.tip': z.string().describe('Text shown on the tip aside variant'),
+			'aside.note': z.string().describe('Text shown on the note aside variant'),
+			'aside.caution': z.string().describe('Text shown on the warning aside variant'),
+			'aside.danger': z.string().describe('Text shown on the danger aside variant'),
+
+			'fileTree.directory': z
+				.string()
+				.describe('Label for the directory icon in the file tree component.'),
 		})
 		.partial();
 }
@@ -154,6 +204,24 @@ function pagefindI18nSchema() {
 				.describe(
 					'Pagefind UI translation. English default value: `"Searching for [SEARCH_TERM]..."`. See https://pagefind.app/docs/ui/#translations'
 				),
+		})
+		.partial();
+}
+
+function expressiveCodeI18nSchema() {
+	return z
+		.object({
+			'expressiveCode.copyButtonCopied': z
+				.string()
+				.describe('Expressive Code UI translation. English default value: `"Copied!"`'),
+
+			'expressiveCode.copyButtonTooltip': z
+				.string()
+				.describe('Expressive Code UI translation. English default value: `"Copy to clipboard"`'),
+
+			'expressiveCode.terminalWindowFallbackTitle': z
+				.string()
+				.describe('Expressive Code UI translation. English default value: `"Terminal window"`'),
 		})
 		.partial();
 }

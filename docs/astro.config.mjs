@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import starlightLinksValidator from 'starlight-links-validator';
 
 export const locales = {
 	root: { label: 'English', lang: 'en' },
@@ -11,15 +12,26 @@ export const locales = {
 	id: { label: 'Bahasa Indonesia', lang: 'id' },
 	'zh-cn': { label: '简体中文', lang: 'zh-CN' },
 	'pt-br': { label: 'Português do Brasil', lang: 'pt-BR' },
+	'pt-pt': { label: 'Português', lang: 'pt-PT' },
 	ko: { label: '한국어', lang: 'ko' },
 	tr: { label: 'Türkçe', lang: 'tr' },
 	ru: { label: 'Русский', lang: 'ru' },
+	hi: { label: 'हिंदी', lang: 'hi' },
+	da: { label: 'Dansk', lang: 'da' },
+	uk: { label: 'Українська', lang: 'uk' },
 };
 
-const site = 'https://starlight.astro.build/';
+/* https://vercel.com/docs/projects/environment-variables/system-environment-variables#system-environment-variables */
+const VERCEL_PREVIEW_SITE =
+	process.env.VERCEL_ENV !== 'production' &&
+	process.env.VERCEL_URL &&
+	`https://${process.env.VERCEL_URL}`;
+
+const site = VERCEL_PREVIEW_SITE || 'https://starlight.astro.build/';
 
 export default defineConfig({
 	site,
+	trailingSlash: 'always',
 	integrations: [
 		starlight({
 			title: 'Starlight',
@@ -67,9 +79,12 @@ export default defineConfig({
 						id: 'Mulai dari sini',
 						'zh-CN': '从这里开始',
 						'pt-BR': 'Comece Aqui',
+						'pt-PT': 'Comece Aqui',
 						ko: '여기서부터',
 						tr: 'Buradan Başlayın',
-						ru: 'Начать отсюда',
+						ru: 'Первые шаги',
+						hi: 'यहाँ से शुरू करे',
+						uk: 'Почніть звідси',
 					},
 					items: [
 						{
@@ -84,9 +99,12 @@ export default defineConfig({
 								id: 'Memulai',
 								'zh-CN': '开始使用',
 								'pt-BR': 'Introdução',
+								'pt-PT': 'Introdução',
 								ko: '시작하기',
 								tr: 'Başlarken',
 								ru: 'Введение',
+								hi: 'पहले कदम',
+								uk: 'Вступ',
 							},
 						},
 						{
@@ -101,16 +119,19 @@ export default defineConfig({
 								id: 'Instalasi Manual',
 								'zh-CN': '手动配置',
 								'pt-BR': 'Instalação Manual',
+								'pt-PT': 'Instalação Manual',
 								ko: '수동으로 설정하기',
 								tr: 'Elle Kurulum',
 								ru: 'Установка вручную',
+								hi: 'मैनुअल सेटअप',
+								uk: 'Ручне встановлення',
 							},
 						},
 						{
 							label: 'Environmental Impact',
 							link: 'environmental-impact',
 							translations: {
-								// de: '',
+								de: 'Umweltbelastung',
 								es: 'Documentación ecológica',
 								ja: '環境への負荷',
 								fr: 'Impact environnemental',
@@ -118,24 +139,12 @@ export default defineConfig({
 								id: 'Dampak terhadap lingkungan',
 								'zh-CN': '环境影响',
 								'pt-BR': 'Impacto Ambiental',
+								'pt-PT': 'Impacto Ambiental',
 								ko: '환경적 영향',
 								tr: 'Çevre Etkisi',
 								ru: 'Влияние на окружающую среду',
-							},
-						},
-						{
-							label: 'Showcase',
-							link: 'showcase',
-							translations: {
-								// de: '',
-								// es: '',
-								ja: 'ショーケース',
-								fr: 'Vitrine',
-								// it: '',
-								id: 'Galeri',
-								ko: '쇼케이스',
-								tr: 'Vitrin',
-								ru: 'Примеры',
+								hi: 'पर्यावरणीय प्रभाव',
+								uk: 'Вплив на довкілля',
 							},
 						},
 					],
@@ -148,12 +157,15 @@ export default defineConfig({
 						ja: 'ガイド',
 						fr: 'Guides',
 						it: 'Guide',
-						id: 'Petunjuk Penggunaan',
+						id: 'Panduan',
 						'zh-CN': '指南',
 						'pt-BR': 'Guias',
+						'pt-PT': 'Guias',
 						ko: '가이드',
 						tr: 'Rehber',
 						ru: 'Руководства',
+						hi: 'गाइड',
+						uk: 'Ґайди',
 					},
 					autogenerate: { directory: 'guides' },
 				},
@@ -171,11 +183,33 @@ export default defineConfig({
 						ko: '참조',
 						tr: 'Referanslar',
 						ru: 'Справочник',
+						hi: 'संदर्भ',
+						uk: 'Довідник',
 					},
 					autogenerate: { directory: 'reference' },
 				},
+				{
+					label: 'Resources',
+					badge: 'New',
+					translations: {
+						'zh-CN': '资源',
+						fr: 'Ressources',
+						'pt-BR': 'Recursos',
+						'pt-PT': 'Recursos',
+						ja: 'リソース',
+						ru: 'Ресурсы',
+					},
+					autogenerate: { directory: 'resources' },
+				},
 			],
-			lastUpdated: true,
+			plugins: process.env.CHECK_LINKS
+				? [
+						starlightLinksValidator({
+							errorOnFallbackPages: false,
+							errorOnInconsistentLocale: true,
+						}),
+				  ]
+				: [],
 		}),
 	],
 });

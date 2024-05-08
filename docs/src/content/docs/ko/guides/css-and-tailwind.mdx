@@ -3,11 +3,15 @@ title: CSS & 스타일링
 description: 맞춤형 CSS로 Starlight 사이트의 스타일을 지정하거나 Tailwind CSS와 통합하는 방법을 알아보세요.
 ---
 
+import { Tabs, TabItem, Steps } from '@astrojs/starlight/components';
+
 사용자 정의 CSS 파일을 사용하여 Starlight 사이트의 스타일을 지정하거나 Starlight Tailwind 플러그인을 사용할 수 있습니다.
 
 ## 사용자 정의 CSS 스타일
 
 Starlight의 기본 스타일을 수정하거나 확장하기 위한 CSS 파일을 제공하여 사이트에 적용된 스타일을 원하는대로 변경할 수 있습니다.
+
+<Steps>
 
 1. `src/` 디렉터리에 CSS 파일을 추가합니다. 예를 들어, 아래 코드를 통해 페이지 제목을 더 넓게 만들고, 더 큰 텍스트를 사용할 수 있습니다.
 
@@ -21,7 +25,7 @@ Starlight의 기본 스타일을 수정하거나 확장하기 위한 CSS 파일�
 
 2. `astro.config.mjs` 파일에 있는 Starlight의 `customCss` 배열에 CSS 파일 경로를 추가하세요.
 
-   ```js
+   ```diff lang="js"
    // astro.config.mjs
    import { defineConfig } from 'astro/config';
    import starlight from '@astrojs/starlight';
@@ -31,13 +35,15 @@ Starlight의 기본 스타일을 수정하거나 확장하기 위한 CSS 파일�
    		starlight({
    			title: '사용자 정의 CSS를 사용한 문서',
    			customCss: [
-   				// 사용자 정의 CSS 파일의 상대 경로
-   				'./src/styles/custom.css',
+   +				// 사용자 정의 CSS 파일의 상대 경로
+   +				'./src/styles/custom.css',
    			],
    		}),
    	],
    });
    ```
+
+</Steps>
 
 사이트를 스타일링하기 위해 Starlight에서 사용되는 모든 CSS 속성을 [`props.css` 파일](https://github.com/withastro/starlight/blob/main/packages/starlight/style/props.css)에서 확인할 수 있습니다.
 
@@ -54,11 +60,9 @@ Starlight Tailwind 플러그인은 다음 구성을 적용합니다.
 
 ### Tailwind가 포함된 새 프로젝트 만들기
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-
 `create astro`를 사용하여 Tailwind CSS가 사전 구성된 새 Starlight 프로젝트를 시작하세요.
 
-<Tabs>
+<Tabs syncKey="pkg">
 <TabItem label="npm">
 
 ```sh
@@ -86,9 +90,11 @@ yarn create astro --template starlight/tailwind
 
 이미 Starlight 사이트가 존재할때, Tailwind CSS를 추가하려면 다음 단계를 따르세요.
 
+<Steps>
+
 1.  Astro의 Tailwind 통합 추가
 
-    <Tabs>
+    <Tabs syncKey="pkg">
 
     <TabItem label="npm">
 
@@ -118,7 +124,7 @@ yarn create astro --template starlight/tailwind
 
 2.  Starlight Tailwind 플러그인을 설치하세요.
 
-    <Tabs>
+    <Tabs syncKey="pkg">
 
     <TabItem label="npm">
 
@@ -131,7 +137,7 @@ yarn create astro --template starlight/tailwind
     <TabItem label="pnpm">
 
     ```sh
-    pnpm install @astrojs/starlight-tailwind
+    pnpm add @astrojs/starlight-tailwind
     ```
 
     </TabItem>
@@ -180,18 +186,20 @@ yarn create astro --template starlight/tailwind
     });
     ```
 
-5.  `tailwind.config.cjs` 파일에 Starlight Tailwind 플러그인을 추가하세요.
+5.  `tailwind.config.mjs` 파일에 Starlight Tailwind 플러그인을 추가하세요.
 
     ```js ins={2,7}
-    // tailwind.config.cjs
-    const starlightPlugin = require('@astrojs/starlight-tailwind');
+    // tailwind.config.mjs
+    import starlightPlugin from '@astrojs/starlight-tailwind';
 
     /** @type {import('tailwindcss').Config} */
-    module.exports = {
+    export default {
     	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
     	plugins: [starlightPlugin()],
     };
     ```
+
+</Steps>
 
 ### Tailwind로 Starlight 스타일링하기
 
@@ -205,12 +213,12 @@ Starlight는 UI에서 [Tailwind 테마 구성](https://tailwindcss.com/docs/them
 - `fontFamily.mono` — 코드 예제에 사용됩니다.
 
 ```js {12,14,18,20}
-// tailwind.config.cjs
-const starlightPlugin = require('@astrojs/starlight-tailwind');
-const colors = require('tailwindcss/colors');
+// tailwind.config.mjs
+import starlightPlugin from '@astrojs/starlight-tailwind';
+import colors from 'tailwindcss/colors';
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		extend: {
@@ -243,7 +251,7 @@ module.exports = {
 
 변경 사항이 만족스러우면 아래 CSS 또는 Tailwind 코드를 복사하여 프로젝트에 사용하세요.
 
-import ThemeDesigner from '../../../../components/theme-designer.astro';
+import ThemeDesigner from '~/components/theme-designer.astro';
 
 <ThemeDesigner
 	labels={{

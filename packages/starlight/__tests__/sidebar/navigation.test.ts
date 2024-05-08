@@ -6,8 +6,12 @@ vi.mock('astro:content', async () =>
 		docs: [
 			['index.mdx', { title: 'Home Page' }],
 			['environmental-impact.md', { title: 'Eco-friendly docs' }],
-			['reference/configuration.md', { title: 'Config Reference' }],
+			['reference/configuration.mdx', { title: 'Config Reference' }],
 			['reference/frontmatter.md', { title: 'Frontmatter Reference' }],
+			// @ts-expect-error — Using a slug not present in Starlight docs site
+			['reference/frontmatter/foo.mdx', { title: 'Foo' }],
+			// @ts-expect-error — Using a slug not present in Starlight docs site
+			['api/v1/users.md', { title: 'Users API' }],
 			['guides/components.mdx', { title: 'Components' }],
 		],
 	})
@@ -26,6 +30,7 @@ describe('getSidebar', () => {
 			    "type": "link",
 			  },
 			  {
+			    "badge": undefined,
 			    "collapsed": false,
 			    "entries": [
 			      {
@@ -34,7 +39,7 @@ describe('getSidebar', () => {
 			          "text": "New",
 			          "variant": "success",
 			        },
-			        "href": "/intro/",
+			        "href": "/intro",
 			        "isCurrent": false,
 			        "label": "Introduction",
 			        "type": "link",
@@ -45,7 +50,7 @@ describe('getSidebar', () => {
 			          "text": "Deprecated",
 			          "variant": "default",
 			        },
-			        "href": "/next-steps/",
+			        "href": "/next-steps",
 			        "isCurrent": false,
 			        "label": "Next Steps",
 			        "type": "link",
@@ -56,7 +61,7 @@ describe('getSidebar', () => {
 			          "target": "_blank",
 			        },
 			        "badge": undefined,
-			        "href": "/showcase/",
+			        "href": "/showcase",
 			        "isCurrent": false,
 			        "label": "Showcase",
 			        "type": "link",
@@ -66,6 +71,10 @@ describe('getSidebar', () => {
 			    "type": "group",
 			  },
 			  {
+			    "badge": {
+			      "text": "Experimental",
+			      "variant": "default",
+			    },
 			    "collapsed": false,
 			    "entries": [
 			      {
@@ -77,15 +86,47 @@ describe('getSidebar', () => {
 			        "type": "link",
 			      },
 			      {
-			        "attrs": {},
 			        "badge": undefined,
-			        "href": "/reference/frontmatter/",
-			        "isCurrent": false,
-			        "label": "Frontmatter Reference",
-			        "type": "link",
+			        "collapsed": false,
+			        "entries": [
+			          {
+			            "attrs": {},
+			            "badge": undefined,
+			            "href": "/reference/frontmatter/",
+			            "isCurrent": false,
+			            "label": "Frontmatter Reference",
+			            "type": "link",
+			          },
+			          {
+			            "attrs": {},
+			            "badge": undefined,
+			            "href": "/reference/frontmatter/foo/",
+			            "isCurrent": false,
+			            "label": "Foo",
+			            "type": "link",
+			          },
+			        ],
+			        "label": "frontmatter",
+			        "type": "group",
 			      },
 			    ],
 			    "label": "Reference",
+			    "type": "group",
+			  },
+			  {
+			    "badge": undefined,
+			    "collapsed": false,
+			    "entries": [
+			      {
+			        "attrs": {},
+			        "badge": undefined,
+			        "href": "/api/v1/users/",
+			        "isCurrent": false,
+			        "label": "Users API",
+			        "type": "link",
+			      },
+			    ],
+			    "label": "API v1",
 			    "type": "group",
 			  },
 			]

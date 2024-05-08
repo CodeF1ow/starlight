@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 4
 ---
 
-Vous pouvez redéfinir les composants intégrés à Starlight en spécifiant des chemins vers des composants de remplacement avec l'option de configuration [`components`](/fr/reference/configuration#components) de Starlight.
+Vous pouvez redéfinir les composants intégrés à Starlight en spécifiant des chemins vers des composants de remplacement avec l'option de configuration [`components`](/fr/reference/configuration/#components) de Starlight.
 Cette page répertorie tous les composants disponibles qui peuvent être redéfinis et fournit des liens vers leurs implémentations par défaut sur GitHub.
 
 Pour en savoir plus, consultez le [guide des redéfinitions de composants](/fr/guides/overriding-components/).
@@ -18,6 +18,7 @@ Pour typer vos composants personnalisés, importez le type `Props` depuis Starli
 
 ```astro
 ---
+// src/components/Custom.astro
 import type { Props } from '@astrojs/starlight/props';
 
 const { hasSidebar } = Astro.props;
@@ -48,6 +49,12 @@ L’étiquette d’identification BCP-47 pour la langue de la page, par exemple 
 **Type :** `string | undefined`
 
 Le chemin de base utilisé pour servir une langue. `undefined` pour les slugs de la locale racine.
+
+#### `siteTitle`
+
+**Type :** `string`
+
+Le titre du site pour la langue de cette page.
 
 #### `slug`
 
@@ -120,7 +127,7 @@ Table des matières de la page courante si celle-ci est activée.
 **Type :** `{ depth: number; slug: string; text: string }[]`
 
 Un tableau de toutes les en-têtes Markdown extraites de la page courante.
-Utilisez [`toc`](#toc) à la place si vous souhaitez construire une table des matières qui respecte les options de configuration de Starlight.
+Utilisez [`toc`](#toc) à la place si vous souhaitez construire un composant de table des matières qui respecte les options de configuration de Starlight.
 
 #### `lastUpdated`
 
@@ -133,6 +140,12 @@ Un objet JavaScript de type `Date` représentant la date de dernière mise à jo
 **Type :** `URL | undefined`
 
 Un objet `URL` de l'adresse où cette page peut être modifiée si cette fonctionnalité est activée.
+
+#### `labels`
+
+**Type :** `Record<string, string>`
+
+Un objet contenant les chaînes de l’interface utilisateur localisées pour la page courante. Consultez le guide [« Traduire l’interface utilisateur de Starlight »](/fr/guides/i18n/#traduire-linterface-utilisateur-de-starlight) pour obtenir une liste de toutes les clés disponibles.
 
 ---
 
@@ -151,7 +164,7 @@ Composant utilisé à l'intérieur de l'élément `<head>` de chaque page.
 Inclut des balises importantes comme `<title>` et `<meta charset="utf-8">`.
 
 Redéfinissez ce composant en dernier recours.
-Préférez l'option [`head`](/fr/reference/configuration#head) de la configuration de Starlight si possible.
+Préférez l'option [`head`](/fr/reference/configuration/#head) de la configuration de Starlight si possible.
 
 #### `ThemeProvider`
 
@@ -211,7 +224,7 @@ Ces composants affichent la barre de navigation supérieure de Starlight.
 **Composant par défaut :** [`Header.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/Header.astro)
 
 Composant d'en-tête affiché en haut de chaque page.
-L'implémentation par défaut affiche [`<SiteTitle />`](#sitetitle), [`<Search />`](#search), [`<SocialIcons />`](#socialicons), [`<ThemeSelect />`](#themeselect) et [`<LanguageSelect />`](#languageselect).
+L'implémentation par défaut affiche [`<SiteTitle />`](#sitetitle-1), [`<Search />`](#search), [`<SocialIcons />`](#socialicons), [`<ThemeSelect />`](#themeselect) et [`<LanguageSelect />`](#languageselect).
 
 #### `SiteTitle`
 
@@ -227,12 +240,16 @@ L'implémentation par défaut inclut la logique pour afficher les logos définis
 Composant utilisé pour afficher l'interface de recherche de Starlight.
 L'implémentation par défaut inclut le bouton dans l'en-tête et le code pour afficher une fenêtre modale de recherche lorsqu'il est cliqué et charger [l'interface utilisateur de Pagefind](https://pagefind.app/).
 
+Lorsque [`pagefind`](/fr/reference/configuration/#pagefind) est désactivé, le composant de recherche par défaut ne sera pas affiché.
+Cependant, si vous redéfinissez `Search`, votre composant personnalisé sera toujours affiché même si l'option de configuration `pagefind` est `false`.
+Cela vous permet d'ajouter une interface de recherche alternative lorsque vous désactivez Pagefind.
+
 #### `SocialIcons`
 
 **Composant par défaut :** [`SocialIcons.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/SocialIcons.astro)
 
 Composant utilisé dans l'en-tête du site qui inclut des liens avec des icônes vers différents médias sociaux.
-L'implémentation par défaut utilise l'option [`social`](/fr/reference/configuration#social) de la configuration de Starlight pour afficher les icônes et les liens.
+L'implémentation par défaut utilise l'option [`social`](/fr/reference/configuration/#social) de la configuration de Starlight pour afficher les icônes et les liens.
 
 #### `ThemeSelect`
 
@@ -305,7 +322,7 @@ Ces composants sont utilisés dans la colonne principale de contenu de la page.
 **Composant par défaut :** [`Banner.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/Banner.astro)
 
 Composant représentant une bannière affichée en haut de chaque page.
-L'implémentation par défaut utilise la valeur du champ [`banner`](/fr/reference/frontmatter#banner) du frontmatter de la page pour décider de l'affichage ou non.
+L'implémentation par défaut utilise la valeur du champ [`banner`](/fr/reference/frontmatter/#banner) du frontmatter de la page pour décider de l'affichage ou non.
 
 #### `ContentPanel`
 
@@ -321,6 +338,12 @@ Composant contenant l'élement `<h1>` de la page courante.
 
 Les implémentations personnalisées doivent s'assurer qu'elles définissent `id="_top"` sur l'élément `<h1>` comme dans l'implémentation par défaut.
 
+#### `DraftContentNotice`
+
+**Composant par défaut :** [`DraftContentNotice.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/DraftContentNotice.astro)
+
+Note affichée aux utilisateurs durant le développement lorsque la page actuelle est marquée comme une ébauche.
+
 #### `FallbackContentNotice`
 
 **Composant par défaut :** [`FallbackContentNotice.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/FallbackContentNotice.astro)
@@ -332,7 +355,7 @@ Utilisé uniquement sur les sites multilingues.
 
 **Composant par défaut :** [`Hero.astro`](https://github.com/withastro/starlight/blob/main/packages/starlight/components/Hero.astro)
 
-Composant affiché en haut de la page lorsque le champ [`hero`](/fr/reference/frontmatter#hero) est défini dans le frontmatter.
+Composant affiché en haut de la page lorsque le champ [`hero`](/fr/reference/frontmatter/#hero) est défini dans le frontmatter.
 L'implémentation par défaut affiche un large titre, une accroche et des liens d'appel à l'action à côté d'une image facultative.
 
 #### `MarkdownContent`
@@ -341,6 +364,8 @@ L'implémentation par défaut affiche un large titre, une accroche et des liens 
 
 Composant affiché autour du contenu principal de chaque page.
 L'implémentation par défaut définit les styles de base à appliquer au contenu Markdown.
+
+Les styles de contenu Markdown sont également exposés dans `@astrojs/starlight/style/markdown.css` avec une portée limitée à la classe CSS `.sl-markdown-content`.
 
 ---
 

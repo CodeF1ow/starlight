@@ -16,3 +16,9 @@ pnpm-debug.log*
 
 # Vitest
 __coverage__/
+
+# Vercel output
+.vercel
+
+# Created by @astrojs/check
+/src/

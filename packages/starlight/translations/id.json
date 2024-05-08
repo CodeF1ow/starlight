@@ -18,5 +18,11 @@
   "page.lastUpdated": "Terakhir diperbaharui:",
   "page.previousLink": "Sebelumnya",
   "page.nextLink": "Selanjutnya",
-  "404.text": "Halaman tidak ditemukan. Cek kembali kolom URL atau gunakan fitur pencarian."
+  "page.draft": "This content is a draft and will not be included in production builds.",
+  "404.text": "Halaman tidak ditemukan. Cek kembali kolom URL atau gunakan fitur pencarian.",
+  "aside.note": "Catatan",
+  "aside.tip": "Tips",
+  "aside.caution": "Perhatian",
+  "aside.danger": "Bahaya",
+  "fileTree.directory": "Directory"
 }

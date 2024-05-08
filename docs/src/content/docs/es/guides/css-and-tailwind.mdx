@@ -3,11 +3,15 @@ title: CSS y Estilos
 description: Aprende a darle estilo a tu sitio Starlight con CSS personalizado o integrado con Tailwind CSS.
 ---
 
+import { Tabs, TabItem, Steps } from '@astrojs/starlight/components';
+
 Puedes darle estilo a tu sitio de Starlight con archivos CSS personalizados o usar el plugin Starlight Tailwind.
 
 ## Estilos CSS personalizados
 
 Personaliza los estilos aplicados a tu sitio Starlight proporcionando archivos CSS adicionales para modificar o extender los estilos predeterminados de Starlight.
+
+<Steps>
 
 1. Agrega un archivo CSS a tu directorio `src/`.
    Por ejemplo, podrías establecer un ancho de columna predeterminado más ancho y un tamaño de texto más grande para los títulos de las páginas:
@@ -22,7 +26,7 @@ Personaliza los estilos aplicados a tu sitio Starlight proporcionando archivos C
 
 2. Agrega la ruta de tu archivo CSS al array `customCss` de Starlight en `astro.config.mjs`:
 
-   ```js
+   ```diff lang="js"
    // astro.config.mjs
    import { defineConfig } from 'astro/config';
    import starlight from '@astrojs/starlight';
@@ -32,13 +36,15 @@ Personaliza los estilos aplicados a tu sitio Starlight proporcionando archivos C
    		starlight({
    			title: 'Docs With Custom CSS',
    			customCss: [
-   				// Ruta relativa a tu archivo CSS personalizado
-   				'./src/styles/custom.css',
+   +                // Ruta relativa a tu archivo CSS personalizado
+   +				'./src/styles/custom.css',
    			],
    		}),
    	],
    });
    ```
+
+</Steps>
 
 Puedes ver todas las propiedades CSS personalizadas utilizadas por Starlight que puedes establecer para personalizar tu sitio en el archivo [`props.css` en GitHub](https://github.com/withastro/starlight/blob/main/packages/starlight/style/props.css).
 
@@ -55,11 +61,9 @@ El plugin Starlight Tailwind aplica la siguiente configuración:
 
 ### Crea un nuevo proyecto con Tailwind
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-
 Empieza un nuevo proyecto en Starlight con Tailwind CSS preconfigurado usando `create astro`:
 
-<Tabs>
+<Tabs syncKey="pkg">
 <TabItem label="npm">
 
 ```sh
@@ -87,9 +91,11 @@ yarn create astro --template starlight/tailwind
 
 Si ya tienes un sitio en Starlight y quieres agregar Tailwind CSS, sigue estos pasos.
 
+<Steps>
+
 1.  Agrega la integración de Tailwind de Astro:
 
-    <Tabs>
+    <Tabs syncKey="pkg">
 
     <TabItem label="npm">
 
@@ -119,7 +125,7 @@ Si ya tienes un sitio en Starlight y quieres agregar Tailwind CSS, sigue estos p
 
 2.  Instala el plugin Starlight Tailwind:
 
-    <Tabs>
+    <Tabs syncKey="pkg">
 
     <TabItem label="npm">
 
@@ -132,7 +138,7 @@ Si ya tienes un sitio en Starlight y quieres agregar Tailwind CSS, sigue estos p
     <TabItem label="pnpm">
 
     ```sh
-    pnpm install @astrojs/starlight-tailwind
+    pnpm add @astrojs/starlight-tailwind
     ```
 
     </TabItem>
@@ -181,18 +187,20 @@ Si ya tienes un sitio en Starlight y quieres agregar Tailwind CSS, sigue estos p
     });
     ```
 
-5.  Agrega el plugin Starlight Tailwind a `tailwind.config.cjs`:
+5.  Agrega el plugin Starlight Tailwind a `tailwind.config.mjs`:
 
     ```js ins={2,7}
-    // tailwind.config.cjs
-    const starlightPlugin = require('@astrojs/starlight-tailwind');
+    // tailwind.config.mjs
+    import starlightPlugin from '@astrojs/starlight-tailwind';
 
     /** @type {import('tailwindcss').Config} */
-    module.exports = {
+    export default {
     	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
     	plugins: [starlightPlugin()],
     };
     ```
+
+</Steps>
 
 ### Estilando Starlight con Tailwind
 
@@ -206,12 +214,12 @@ Si se establece, las siguientes opciones anularán los estilos predeterminados d
 - `fontFamily.mono` - usada para ejemplos de código
 
 ```js {12,14,18,20}
-// tailwind.config.cjs
-const starlightPlugin = require('@astrojs/starlight-tailwind');
-const colors = require('tailwindcss/colors');
+// tailwind.config.mjs
+import starlightPlugin from '@astrojs/starlight-tailwind';
+import colors from 'tailwindcss/colors';
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		extend: {
@@ -245,7 +253,7 @@ Las áreas de vista previa oscura y clara mostrarán los colores resultantes, y 
 
 Cuando estés satisfecho con tus cambios, copia el código CSS o Tailwind a continuación y úsalo en tu proyecto.
 
-import ThemeDesigner from '../../../../components/theme-designer.astro';
+import ThemeDesigner from '~/components/theme-designer.astro';
 
 <ThemeDesigner
 	labels={{
