@@ -1,5 +1,76 @@
 # @astrojs/starlight
 
+## 0.24.4
+
+### Patch Changes
+
+- [#2038](https://github.com/withastro/starlight/pull/2038) [`87f3f92`](https://github.com/withastro/starlight/commit/87f3f925be6f9897b71b09a3041ec6d54be483b2) Thanks [@dragomano](https://github.com/dragomano)! - Updates Russian UI translations
+
+- [#2043](https://github.com/withastro/starlight/pull/2043) [`53f4cd4`](https://github.com/withastro/starlight/commit/53f4cd443cf31b6135ff16eb74b5f26ee93ee2d5) Thanks [@playmr365](https://github.com/playmr365)! - Updates Czech UI translations
+
+- [#2041](https://github.com/withastro/starlight/pull/2041) [`8af5a60`](https://github.com/withastro/starlight/commit/8af5a60ab14f4dae7f5a5e4ee535ae927273368b) Thanks [@HiDeoo](https://github.com/HiDeoo)! - Fixes `<Steps>` numbering bug caused by Chrome v126 CSS counter rewrite
+
+## 0.24.3
+
+### Patch Changes
+
+- [#2028](https://github.com/withastro/starlight/pull/2028) [`af81ad3`](https://github.com/withastro/starlight/commit/af81ad38fd26c375c0372718fd3e152b7f1a0fa6) Thanks [@HiDeoo](https://github.com/HiDeoo)! - Fixes a search dialog height issue in Safari.
+
+- [#2022](https://github.com/withastro/starlight/pull/2022) [`80f82b1`](https://github.com/withastro/starlight/commit/80f82b15afae1366676e0c25e674210a19606df5) Thanks [@playmr365](https://github.com/playmr365)! - Updates Czech UI translations
+
+## 0.24.2
+
+### Patch Changes
+
+- [#2008](https://github.com/withastro/starlight/pull/2008) [`40359c7`](https://github.com/withastro/starlight/commit/40359c7b73d9c7d60f0b44a870dbc93ba941228f) Thanks [@vnepogodin](https://github.com/vnepogodin)! - Add Slovak language UI translation.
+
+- [#2004](https://github.com/withastro/starlight/pull/2004) [`0aa2f06`](https://github.com/withastro/starlight/commit/0aa2f06d3a35a3c5182b4d461c8f3489ac145301) Thanks [@liruifengv](https://github.com/liruifengv)! - Removes an outdated export in `package.json`
+
+- [#2007](https://github.com/withastro/starlight/pull/2007) [`44ca490`](https://github.com/withastro/starlight/commit/44ca490f36ecd6789d0865dd2506e5ea03dfa0fb) Thanks [@delucis](https://github.com/delucis)! - Updates internal dependencies
+
+- [#1993](https://github.com/withastro/starlight/pull/1993) [`60165b2`](https://github.com/withastro/starlight/commit/60165b20c9d11a08c4c4793615778e045b41b7de) Thanks [@HiDeoo](https://github.com/HiDeoo)! - Fixes an i18n configuration issue when using a single root locale.
+
+## 0.24.1
+
+### Patch Changes
+
+- [#1978](https://github.com/withastro/starlight/pull/1978) [`a5ab8cd6`](https://github.com/withastro/starlight/commit/a5ab8cd6a0095cb48b65b9784054714f87bd7e4d) Thanks [@kylewlacy](https://github.com/kylewlacy)! - Add new social icon for Zulip
+
+- [#1962](https://github.com/withastro/starlight/pull/1962) [`2ef19a94`](https://github.com/withastro/starlight/commit/2ef19a947c54c7d2c085bf8820c862737e2ab08b) Thanks [@torn4dom4n](https://github.com/torn4dom4n)! - Updates Vietnamese UI translations
+
+- [#1976](https://github.com/withastro/starlight/pull/1976) [`5a61f73c`](https://github.com/withastro/starlight/commit/5a61f73c198a33b27342c9b0371dd5fd22da2190) Thanks [@jsparkdev](https://github.com/jsparkdev)! - Updates Korean UI translations
+
+- [#1987](https://github.com/withastro/starlight/pull/1987) [`0b8a8439`](https://github.com/withastro/starlight/commit/0b8a843936bd8506ac228608b07c54a76a7add19) Thanks [@HiDeoo](https://github.com/HiDeoo)! - Fixes issues with the locale text direction detection mechanism in some environments like WebContainers or Bun.
+
+## 0.24.0
+
+### Minor Changes
+
+- [#1841](https://github.com/withastro/starlight/pull/1841) [`ee0cd38a`](https://github.com/withastro/starlight/commit/ee0cd38a1fae31717fe820e779baeabe693cd67a) Thanks [@HiDeoo](https://github.com/HiDeoo)! - Adds support for `Astro.currentLocale` and Astro’s i18n routing.
+
+  ⚠️ **Potentially breaking change:** Starlight now configures Astro’s `i18n` option for you based on its `locales` config.
+
+  If you are currently using Astro’s `i18n` option as well as Starlight’s `locales` option, you will need to remove one of these.
+  In general we recommend using Starlight’s `locales`, but if you have a more advanced configuration you may choose to keep Astro’s `i18n` config instead.
+
+- [#1958](https://github.com/withastro/starlight/pull/1958) [`081d1a96`](https://github.com/withastro/starlight/commit/081d1a969462633e41ca95a18a1ec121cb4af5d2) Thanks [@delucis](https://github.com/delucis)! - Allows users to opt into displaying a “Built with Starlight” link in the site footer
+
+- [#1530](https://github.com/withastro/starlight/pull/1530) [`dd64836a`](https://github.com/withastro/starlight/commit/dd64836af45f33df4a99ab864eabb91fc9b8e204) Thanks [@kevinzunigacuellar](https://github.com/kevinzunigacuellar)! - Adds a new `<Badge>` component
+
+## 0.23.4
+
+### Patch Changes
+
+- [#1955](https://github.com/withastro/starlight/pull/1955) [`15ef1f4b`](https://github.com/withastro/starlight/commit/15ef1f4bdbf7174134121f4bbdf82ca3903c802a) Thanks [@HiDeoo](https://github.com/HiDeoo)! - Reverts a [change](https://github.com/withastro/starlight/pull/1948) to prevent a numbering issue with the `<Steps>` component in future versions of Chrome.
+
+## 0.23.3
+
+### Patch Changes
+
+- [#1948](https://github.com/withastro/starlight/pull/1948) [`68c0c077`](https://github.com/withastro/starlight/commit/68c0c077a9ca5ec2a8206e99b70236043a74c3b8) Thanks [@HiDeoo](https://github.com/HiDeoo)! - Fixes a `<Steps>` component numbering issue with the next Chrome stable version when a step contains a nested list.
+
+- [#1909](https://github.com/withastro/starlight/pull/1909) [`c98c7088`](https://github.com/withastro/starlight/commit/c98c7088ee3ecd43522dac0916fd41c417693f65) Thanks [@joshka](https://github.com/joshka)! - Adds Discourse to social icons
+
 ## 0.23.2
 
 ### Patch Changes
